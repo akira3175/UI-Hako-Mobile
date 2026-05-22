@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Hako - Ứng dụng đọc truyện Light Novel, Web Novel hàng đầu">
+  <meta name="theme-color" content="#f4f8ff">
+  <title>Hako - Đọc Truyện</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Status Bar Spacer -->
+    <div class="status-bar-spacer"></div>
+
+    <!-- ===== PAGE: Trang Chủ (Thư viện) ===== -->
+    <main id="page-home" class="page active">
+      <!-- Home Top Tabs: Toàn bộ / Sáng tác / Truyện dịch / AI dịch -->
+      <header class="home-tabs-header" id="home-tabs-header">
+        <div class="home-tabs-container">
+          <div class="home-tabs">
+            <button class="home-tab active" data-home-tab="toanbo" id="tab-toanbo">Toàn bộ</button>
+            <button class="home-tab" data-home-tab="sangtac" id="tab-sangtac">Sáng tác</button>
+            <button class="home-tab" data-home-tab="truyendich" id="tab-truyendich">Truyện dịch</button>
+            <button class="home-tab" data-home-tab="aidich" id="tab-aidich">AI dịch</button>
+            <div class="home-tab-indicator" id="home-tab-indicator"></div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Search Overlay (Lớp phủ tìm kiếm) -->
+      <div class="search-overlay" id="search-overlay">
+        <header class="search-overlay-header">
+          <button class="search-back-btn" id="btn-search-back" aria-label="Quay lại">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          </button>
+          <div class="search-input-wrapper">
+            <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" class="search-overlay-input" placeholder="Tìm tên truyện, tác giả..." id="search-overlay-input">
+            <button class="search-clear-btn" id="btn-search-clear" style="display: none;" aria-label="Xóa">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="search-overlay-content">
+          <!-- Thể loại (Genre Grid) -->
+          <section class="section">
+            <div class="section-header">
+              <h2 class="section-title">Thể loại</h2>
+            </div>
+            <div class="genre-grid">
+              <button class="genre-card" style="--g-from: #4a9eff; --g-to: #6dd5fa;">
+                <span class="genre-emoji">⚔️</span>
+                <span class="genre-name">Hành động</span>
+                <span class="genre-count">1,240 truyện</span>
+              </button>
+              <button class="genre-card" style="--g-from: #f7797d; --g-to: #fbd786;">
+                <span class="genre-emoji">💕</span>
+                <span class="genre-name">Tình cảm</span>
+                <span class="genre-count">986 truyện</span>
+              </button>
+              <button class="genre-card" style="--g-from: #43e97b; --g-to: #38f9d7;">
+                <span class="genre-emoji">🧙</span>
+                <span class="genre-name">Fantasy</span>
+                <span class="genre-count">1,520 truyện</span>
+              </button>
+              <button class="genre-card" style="--g-from: #a18cd1; --g-to: #fbc2eb;">
+                <span class="genre-emoji">🌀</span>
+                <span class="genre-name">Isekai</span>
+                <span class="genre-count">870 truyện</span>
+              </button>
+              <button class="genre-card" style="--g-from: #fccb90; --g-to: #d57eeb;">
+                <span class="genre-emoji">😂</span>
+                <span class="genre-name">Hài hước</span>
+                <span class="genre-count">654 truyện</span>
+              </button>
+              <button class="genre-card" style="--g-from: #667eea; --g-to: #764ba2;">
+                <span class="genre-emoji">🔮</span>
+                <span class="genre-name">Bí ẩn</span>
+                <span class="genre-count">432 truyện</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- Xu hướng (Trending) -->
+          <section class="section">
+            <div class="section-header">
+              <h2 class="section-title">Tìm kiếm nổi bật</h2>
+            </div>
+            <div class="trending-list-overlay">
+              <div class="trending-overlay-item">
+                <span class="trending-rank">1</span>
+                <span class="trending-text">Thiên Hạ Đệ Nhất Kiếm</span>
+                <span class="trending-badge hot">Hot</span>
+              </div>
+              <div class="trending-overlay-item">
+                <span class="trending-rank">2</span>
+                <span class="trending-text">Mushoku Tensei</span>
+              </div>
+              <div class="trending-overlay-item">
+                <span class="trending-rank">3</span>
+                <span class="trending-text">Vạn Giới Chí Tôn</span>
+              </div>
+              <div class="trending-overlay-item">
+                <span class="trending-rank">4</span>
+                <span class="trending-text">Hoa Đăng Ký Sự</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div class="page-content home-page-content">
+
+        <!-- Hero Blur Background (scrolls with content) -->
+        <div class="hero-blur-bg" id="hero-blur-bg"></div>
+
+        <!-- Global Search Bar Mock -->
+        <div class="global-search-container">
+          <div class="global-search-bar" id="btn-search-trigger">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <span class="search-placeholder">Tôi không muốn bị bắt nạt bởi bé Rồng Bạc</span>
+          </div>
+          <button class="history-btn" aria-label="Lịch sử đọc">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 15 15"/></svg>
+            <span>Lịch sử</span>
+          </button>
+        </div>
+
+
+        <!-- ====== TAB: Toàn bộ ====== -->
+        <div class="home-tab-content active" id="home-content-toanbo">
+          <!-- Banner -->
+          <section class="banner-carousel">
+            <div class="carousel-track" id="carousel-track-toanbo">
+              <div class="banner-slide active" style="--banner-from: #4a9eff; --banner-to: #7c5cfc;">
+                <div class="banner-gradient"></div>
+                <div class="banner-content">
+                  <span class="banner-tag">Hot 🔥</span>
+                  <h2 class="banner-title">Mushoku Tensei</h2>
+                  <p class="banner-desc">Chuyển sinh đến thế giới khác, khởi đầu lại cuộc đời mới</p>
+                  <button class="banner-btn">Đọc ngay</button>
+                </div>
+                <div class="banner-img-placeholder">
+                  <div class="placeholder-book" style="--hue: 220;"></div>
+                </div>
+              </div>
+              <div class="banner-slide" style="--banner-from: #a18cd1; --banner-to: #fbc2eb;">
+                <div class="banner-gradient"></div>
+                <div class="banner-content">
+                  <span class="banner-tag">🤖 AI dịch</span>
+                  <h2 class="banner-title">Solo Leveling</h2>
+                  <p class="banner-desc">Thợ săn hạng E chật vật sinh tồn trong hầm ngục nguy hiểm</p>
+                  <button class="banner-btn">Đọc ngay</button>
+                </div>
+                <div class="banner-img-placeholder">
+                  <div class="placeholder-book" style="--hue: 280;"></div>
+                </div>
+              </div>
+              <div class="banner-slide" style="--banner-from: #667eea; --banner-to: #764ba2;">
+                <div class="banner-gradient"></div>
+                <div class="banner-content">
+                  <span class="banner-tag">Sáng tác ✍️</span>
+                  <h2 class="banner-title">Thiên Hạ Đệ Nhất Kiếm</h2>
+                  <p class="banner-desc">Tu tiên giả bước vào con đường kiếm đạo đầy chông gai</p>
+                  <button class="banner-btn">Đọc ngay</button>
+                </div>
+                <div class="banner-img-placeholder">
+                  <div class="placeholder-book" style="--hue: 260;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-dots" id="carousel-dots-toanbo">
+              <span class="dot active"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+          </section>
+
+          <!-- Quick Categories -->
+          <section class="quick-categories">
+            <button class="category-chip active" data-category="all">
+              <span class="chip-icon">🌟</span> Tất cả
+            </button>
+            <button class="category-chip" data-category="sangtac">
+              <span class="chip-icon">✍️</span> Sáng tác
+            </button>
+            <button class="category-chip" data-category="truyendich">
+              <span class="chip-icon">📖</span> Truyện dịch
+            </button>
+            <button class="category-chip" data-category="aidich">
+              <span class="chip-icon">🤖</span> AI dịch
+            </button>
+          </section>
+
+          <!-- Sáng tác -->
+          <section class="section novel-section" data-section-type="sangtac">
+            <div class="section-header">
+              <h2 class="section-title">Sáng tác</h2>
+              <button class="section-more">Xem thêm →</button>
+            </div>
+            <div class="novel-grid">
+              <article class="novel-card" data-novel-type="sangtac">
+                <div class="novel-cover" style="--hue: 260;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">Thiên Hạ Đệ Nhất Kiếm</h3><p class="novel-chapter">Chương 342</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="sangtac">
+                <div class="novel-cover" style="--hue: 340;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">Hoa Đăng Ký Sự</h3><p class="novel-chapter">Chương 128</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="sangtac">
+                <div class="novel-cover" style="--hue: 150;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">Sơn Hải Kinh</h3><p class="novel-chapter">Chương 50</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="sangtac">
+                <div class="novel-cover" style="--hue: 45;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">Đại Đạo Triều Thiên</h3><p class="novel-chapter">Chương 99</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="sangtac">
+                <div class="novel-cover" style="--hue: 200;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">Ngạo Thế</h3><p class="novel-chapter">Chương 210</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="sangtac">
+                <div class="novel-cover" style="--hue: 10;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">Tiên Ma Biến</h3><p class="novel-chapter">Chương 300</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="sangtac">
+                <div class="novel-cover" style="--hue: 280;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">Truyền Thuyết</h3><p class="novel-chapter">Chương 15</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="sangtac">
+                <div class="novel-cover" style="--hue: 180;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">Vô Cực Binh Đạo</h3><p class="novel-chapter">Chương 88</p></div>
+              </article>
+            </div>
+          </section>
+
+          <!-- Truyện dịch -->
+          <section class="section novel-section" data-section-type="truyendich">
+            <div class="section-header">
+              <h2 class="section-title">Truyện dịch</h2>
+              <button class="section-more">Xem thêm →</button>
+            </div>
+            <div class="novel-grid">
+              <article class="novel-card" data-novel-type="truyendich">
+                <div class="novel-cover" style="--hue: 220;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">Mushoku Tensei</h3><p class="novel-chapter">Chương 250</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="truyendich">
+                <div class="novel-cover" style="--hue: 160;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">Overlord</h3><p class="novel-chapter">Chương 156</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="truyendich">
+                <div class="novel-cover" style="--hue: 300;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">Tensei Slime</h3><p class="novel-chapter">Chương 120</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="truyendich">
+                <div class="novel-cover" style="--hue: 50;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">Re:Zero</h3><p class="novel-chapter">Chương 80</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="truyendich">
+                <div class="novel-cover" style="--hue: 90;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">Sword Art Online</h3><p class="novel-chapter">Chương 30</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="truyendich">
+                <div class="novel-cover" style="--hue: 20;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">Spice and Wolf</h3><p class="novel-chapter">Chương 45</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="truyendich">
+                <div class="novel-cover" style="--hue: 190;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">No Game No Life</h3><p class="novel-chapter">Chương 60</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="truyendich">
+                <div class="novel-cover" style="--hue: 130;"><div class="cover-art"></div></div>
+                <div class="novel-info"><h3 class="novel-title">KonoSuba</h3><p class="novel-chapter">Chương 100</p></div>
+              </article>
+            </div>
+          </section>
+
+          <!-- AI dịch -->
+          <section class="section novel-section" data-section-type="aidich">
+            <div class="section-header">
+              <h2 class="section-title">AI dịch</h2>
+              <button class="section-more">Xem thêm →</button>
+            </div>
+            <div class="novel-grid">
+              <article class="novel-card" data-novel-type="aidich">
+                <div class="novel-cover" style="--hue: 45;"><div class="cover-art"></div><span class="novel-badge ai">AI</span></div>
+                <div class="novel-info"><h3 class="novel-title">Solo Leveling</h3><p class="novel-chapter">Chương 270</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="aidich">
+                <div class="novel-cover" style="--hue: 200;"><div class="cover-art"></div><span class="novel-badge ai">AI</span></div>
+                <div class="novel-info"><h3 class="novel-title">Omniscient Reader</h3><p class="novel-chapter">Chương 551</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="aidich">
+                <div class="novel-cover" style="--hue: 110;"><div class="cover-art"></div><span class="novel-badge ai">AI</span></div>
+                <div class="novel-info"><h3 class="novel-title">TBATE</h3><p class="novel-chapter">Chương 112</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="aidich">
+                <div class="novel-cover" style="--hue: 250;"><div class="cover-art"></div><span class="novel-badge ai">AI</span></div>
+                <div class="novel-info"><h3 class="novel-title">Lord of the Mysteries</h3><p class="novel-chapter">Chương 800</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="aidich">
+                <div class="novel-cover" style="--hue: 320;"><div class="cover-art"></div><span class="novel-badge ai">AI</span></div>
+                <div class="novel-info"><h3 class="novel-title">Reverend Insanity</h3><p class="novel-chapter">Chương 400</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="aidich">
+                <div class="novel-cover" style="--hue: 60;"><div class="cover-art"></div><span class="novel-badge ai">AI</span></div>
+                <div class="novel-info"><h3 class="novel-title">Shadow Hack</h3><p class="novel-chapter">Chương 55</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="aidich">
+                <div class="novel-cover" style="--hue: 140;"><div class="cover-art"></div><span class="novel-badge ai">AI</span></div>
+                <div class="novel-info"><h3 class="novel-title">Library of Heaven's Path</h3><p class="novel-chapter">Chương 1000</p></div>
+              </article>
+              <article class="novel-card" data-novel-type="aidich">
+                <div class="novel-cover" style="--hue: 15;"><div class="cover-art"></div><span class="novel-badge ai">AI</span></div>
+                <div class="novel-info"><h3 class="novel-title">Super Gene</h3><p class="novel-chapter">Chương 2100</p></div>
+              </article>
+            </div>
+          </section>
+
+          <!-- Đọc nhiều nhất -->
+          <section class="section">
+            <div class="section-header">
+              <h2 class="section-title">Đọc nhiều nhất</h2>
+              <button class="section-more">Xem thêm →</button>
+            </div>
+            <div class="ranking-list">
+              <article class="ranking-item" id="all-rank-1">
+                <span class="rank-number gold">1</span>
+                <div class="rank-cover" style="--hue: 45;">
+                  <div class="cover-art-sm"></div>
+                </div>
+                <div class="rank-info">
+                  <h3 class="rank-title">Solo Leveling</h3>
+                  <p class="rank-meta">Hàn Quốc · Hành động · Fantasy</p>
+                  <div class="rank-stats">
+                    <span>👁 3.2M</span>
+                    <span>⭐ 4.9</span>
+                  </div>
+                </div>
+              </article>
+              <article class="ranking-item" id="all-rank-2">
+                <span class="rank-number silver">2</span>
+                <div class="rank-cover" style="--hue: 30;">
+                  <div class="cover-art-sm"></div>
+                </div>
+                <div class="rank-info">
+                  <h3 class="rank-title">Phàm Nhân Tu Tiên</h3>
+                  <p class="rank-meta">Tiên hiệp · Tu chân</p>
+                  <div class="rank-stats">
+                    <span>👁 1.8M</span>
+                    <span>⭐ 4.9</span>
+                  </div>
+                </div>
+              </article>
+              <article class="ranking-item" id="all-rank-3">
+                <span class="rank-number bronze">3</span>
+                <div class="rank-cover" style="--hue: 220;">
+                  <div class="cover-art-sm"></div>
+                </div>
+                <div class="rank-info">
+                  <h3 class="rank-title">Mushoku Tensei</h3>
+                  <p class="rank-meta">Light Novel · Isekai</p>
+                  <div class="rank-stats">
+                    <span>👁 1.2M</span>
+                    <span>⭐ 4.9</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <div class="bottom-spacer"></div>
+        </div>
+
+        <!-- ====== TAB: Sáng tác ====== -->
+        <div class="home-tab-content" id="home-content-sangtac">
+          <!-- Banner -->
+          <section class="banner-carousel" id="banner-carousel">
+            <div class="carousel-track" id="carousel-track">
+              <div class="banner-slide active" style="--banner-from: #667eea; --banner-to: #764ba2;">
+                <div class="banner-gradient"></div>
+                <div class="banner-content">
+                  <span class="banner-tag">Hot 🔥</span>
+                  <h2 class="banner-title">Thiên Hạ Đệ Nhất Kiếm</h2>
+                  <p class="banner-desc">Tu tiên giả bước vào con đường kiếm đạo đầy chông gai</p>
+                  <button class="banner-btn">Đọc ngay</button>
+                </div>
+                <div class="banner-img-placeholder">
+                  <div class="placeholder-book" style="--hue: 260;"></div>
+                </div>
+              </div>
+              <div class="banner-slide" style="--banner-from: #f7797d; --banner-to: #fbd786;">
+                <div class="banner-gradient"></div>
+                <div class="banner-content">
+                  <span class="banner-tag">Mới ✨</span>
+                  <h2 class="banner-title">Hoa Đăng Ký Sự</h2>
+                  <p class="banner-desc">Truyền kỳ về nữ thám tử xuyên không giải mã án cổ</p>
+                  <button class="banner-btn">Đọc ngay</button>
+                </div>
+                <div class="banner-img-placeholder">
+                  <div class="placeholder-book" style="--hue: 30;"></div>
+                </div>
+              </div>
+              <div class="banner-slide" style="--banner-from: #43e97b; --banner-to: #38f9d7;">
+                <div class="banner-gradient"></div>
+                <div class="banner-content">
+                  <span class="banner-tag">Top ⭐</span>
+                  <h2 class="banner-title">Vạn Giới Chí Tôn</h2>
+                  <p class="banner-desc">Từ kẻ phế vật trở thành cường giả tối thượng</p>
+                  <button class="banner-btn">Đọc ngay</button>
+                </div>
+                <div class="banner-img-placeholder">
+                  <div class="placeholder-book" style="--hue: 160;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="carousel-dots" id="carousel-dots">
+              <span class="dot active"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+          </section>
+
+          <!-- Quick Categories -->
+          <section class="quick-categories">
+            <button class="category-chip active" data-category="all">
+              <span class="chip-icon">🌟</span> Tất cả
+            </button>
+            <button class="category-chip" data-category="tienhiep">
+              <span class="chip-icon">⚔️</span> Tiên hiệp
+            </button>
+            <button class="category-chip" data-category="ngontinh">
+              <span class="chip-icon">💕</span> Ngôn tình
+            </button>
+            <button class="category-chip" data-category="dothitv">
+              <span class="chip-icon">🏙️</span> Đô thị
+            </button>
+            <button class="category-chip" data-category="xuyen">
+              <span class="chip-icon">🌀</span> Xuyên không
+            </button>
+            <button class="category-chip" data-category="kiemhiep">
+              <span class="chip-icon">🗡️</span> Kiếm hiệp
+            </button>
+          </section>
+
+          <!-- Truyện mới -->
+          <section class="section">
+            <div class="section-header">
+              <h2 class="section-title">Mới cập nhật</h2>
+              <button class="section-more">Xem thêm →</button>
+            </div>
+            <div class="novel-grid">
+              <article class="novel-card" id="st-novel-1">
+                <div class="novel-cover" style="--hue: 260;">
+                  <div class="cover-art"></div>
+
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Thiên Hạ Đệ Nhất Kiếm</h3>
+                  <p class="novel-chapter">Chương 342</p>
+                </div>
+              </article>
+              <article class="novel-card" id="st-novel-2">
+                <div class="novel-cover" style="--hue: 340;">
+                  <div class="cover-art"></div>
+
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Hoa Đăng Ký Sự</h3>
+                  <p class="novel-chapter">Chương 128</p>
+                </div>
+              </article>
+              <article class="novel-card" id="st-novel-3">
+                <div class="novel-cover" style="--hue: 160;">
+                  <div class="cover-art"></div>
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Vạn Giới Chí Tôn</h3>
+                  <p class="novel-chapter">Chương 567</p>
+                </div>
+              </article>
+              <article class="novel-card" id="st-novel-4">
+                <div class="novel-cover" style="--hue: 30;">
+                  <div class="cover-art"></div>
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Phàm Nhân Tu Tiên</h3>
+                  <p class="novel-chapter">Chương 891</p>
+                </div>
+              </article>
+              <article class="novel-card" id="st-novel-5">
+                <div class="novel-cover" style="--hue: 200;">
+                  <div class="cover-art"></div>
+
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Ngạo Thế Cửu Trọng Thiên</h3>
+                  <p class="novel-chapter">Chương 456</p>
+                </div>
+              </article>
+              <article class="novel-card" id="st-novel-6">
+                <div class="novel-cover" style="--hue: 100;">
+                  <div class="cover-art"></div>
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Đấu Phá Thương Khung</h3>
+                  <p class="novel-chapter">Chương 1200</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- Đọc nhiều nhất -->
+          <section class="section">
+            <div class="section-header">
+              <h2 class="section-title">Đọc nhiều nhất</h2>
+              <button class="section-more">Xem thêm →</button>
+            </div>
+            <div class="ranking-list">
+              <article class="ranking-item" id="st-rank-1">
+                <span class="rank-number gold">1</span>
+                <div class="rank-cover" style="--hue: 260;">
+                  <div class="cover-art-sm"></div>
+                </div>
+                <div class="rank-info">
+                  <h3 class="rank-title">Đấu Phá Thương Khung</h3>
+                  <p class="rank-meta">Tiên hiệp · Huyền huyễn</p>
+                  <div class="rank-stats">
+                    <span>👁 2.1M</span>
+                    <span>⭐ 4.8</span>
+                  </div>
+                </div>
+              </article>
+              <article class="ranking-item" id="st-rank-2">
+                <span class="rank-number silver">2</span>
+                <div class="rank-cover" style="--hue: 30;">
+                  <div class="cover-art-sm"></div>
+                </div>
+                <div class="rank-info">
+                  <h3 class="rank-title">Phàm Nhân Tu Tiên</h3>
+                  <p class="rank-meta">Tiên hiệp · Tu chân</p>
+                  <div class="rank-stats">
+                    <span>👁 1.8M</span>
+                    <span>⭐ 4.9</span>
+                  </div>
+                </div>
+              </article>
+              <article class="ranking-item" id="st-rank-3">
+                <span class="rank-number bronze">3</span>
+                <div class="rank-cover" style="--hue: 340;">
+                  <div class="cover-art-sm"></div>
+                </div>
+                <div class="rank-info">
+                  <h3 class="rank-title">Vạn Giới Chí Tôn</h3>
+                  <p class="rank-meta">Huyền huyễn · Hành động</p>
+                  <div class="rank-stats">
+                    <span>👁 1.5M</span>
+                    <span>⭐ 4.7</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <div class="bottom-spacer"></div>
+        </div>
+
+        <!-- ====== TAB: Truyện dịch ====== -->
+        <div class="home-tab-content" id="home-content-truyendich">
+          <!-- Banner -->
+          <section class="banner-carousel">
+            <div class="carousel-track" id="carousel-track-dich">
+              <div class="banner-slide active" style="--banner-from: #4a9eff; --banner-to: #7c5cfc;">
+                <div class="banner-gradient"></div>
+                <div class="banner-content">
+                  <span class="banner-tag">Hot 🔥</span>
+                  <h2 class="banner-title">Mushoku Tensei</h2>
+                  <p class="banner-desc">Chuyển sinh đến thế giới khác, khởi đầu lại cuộc đời mới</p>
+                  <button class="banner-btn">Đọc ngay</button>
+                </div>
+                <div class="banner-img-placeholder">
+                  <div class="placeholder-book" style="--hue: 220;"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Quick Categories -->
+          <section class="quick-categories">
+            <button class="category-chip active" data-category="all">
+              <span class="chip-icon">🌟</span> Tất cả
+            </button>
+            <button class="category-chip" data-category="ln">
+              <span class="chip-icon">📖</span> Light Novel
+            </button>
+            <button class="category-chip" data-category="wn">
+              <span class="chip-icon">📝</span> Web Novel
+            </button>
+            <button class="category-chip" data-category="action">
+              <span class="chip-icon">⚔️</span> Hành động
+            </button>
+            <button class="category-chip" data-category="romance">
+              <span class="chip-icon">💕</span> Tình cảm
+            </button>
+            <button class="category-chip" data-category="isekai">
+              <span class="chip-icon">🌀</span> Isekai
+            </button>
+          </section>
+
+          <!-- Truyện mới -->
+          <section class="section">
+            <div class="section-header">
+              <h2 class="section-title">Mới cập nhật</h2>
+              <button class="section-more">Xem thêm →</button>
+            </div>
+            <div class="novel-grid">
+              <article class="novel-card" id="td-novel-1">
+                <div class="novel-cover" style="--hue: 220;">
+                  <div class="cover-art"></div>
+
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Overlord</h3>
+                  <p class="novel-chapter">Chương 156</p>
+                </div>
+              </article>
+              <article class="novel-card" id="td-novel-2">
+                <div class="novel-cover" style="--hue: 340;">
+                  <div class="cover-art"></div>
+
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Konosuba</h3>
+                  <p class="novel-chapter">Chương 98</p>
+                </div>
+              </article>
+              <article class="novel-card" id="td-novel-3">
+                <div class="novel-cover" style="--hue: 160;">
+                  <div class="cover-art"></div>
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Tensura</h3>
+                  <p class="novel-chapter">Chương 312</p>
+                </div>
+              </article>
+              <article class="novel-card" id="td-novel-4">
+                <div class="novel-cover" style="--hue: 30;">
+                  <div class="cover-art"></div>
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Sword Art Online</h3>
+                  <p class="novel-chapter">Chương 250</p>
+                </div>
+              </article>
+              <article class="novel-card" id="td-novel-5">
+                <div class="novel-cover" style="--hue: 280;">
+                  <div class="cover-art"></div>
+
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Shield Hero</h3>
+                  <p class="novel-chapter">Chương 204</p>
+                </div>
+              </article>
+              <article class="novel-card" id="td-novel-6">
+                <div class="novel-cover" style="--hue: 190;">
+                  <div class="cover-art"></div>
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Re:Zero</h3>
+                  <p class="novel-chapter">Chương 420</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- Đọc nhiều nhất -->
+          <section class="section">
+            <div class="section-header">
+              <h2 class="section-title">Đọc nhiều nhất</h2>
+              <button class="section-more">Xem thêm →</button>
+            </div>
+            <div class="ranking-list">
+              <article class="ranking-item" id="td-rank-1">
+                <span class="rank-number gold">1</span>
+                <div class="rank-cover" style="--hue: 220;">
+                  <div class="cover-art-sm"></div>
+                </div>
+                <div class="rank-info">
+                  <h3 class="rank-title">Mushoku Tensei</h3>
+                  <p class="rank-meta">Light Novel · Isekai · Hành động</p>
+                  <div class="rank-stats">
+                    <span>👁 1.2M</span>
+                    <span>⭐ 4.9</span>
+                  </div>
+                </div>
+              </article>
+              <article class="ranking-item" id="td-rank-2">
+                <span class="rank-number silver">2</span>
+                <div class="rank-cover" style="--hue: 200;">
+                  <div class="cover-art-sm"></div>
+                </div>
+                <div class="rank-info">
+                  <h3 class="rank-title">Sword Art Online</h3>
+                  <p class="rank-meta">Light Novel · Sci-fi · Hành động</p>
+                  <div class="rank-stats">
+                    <span>👁 980K</span>
+                    <span>⭐ 4.7</span>
+                  </div>
+                </div>
+              </article>
+              <article class="ranking-item" id="td-rank-3">
+                <span class="rank-number bronze">3</span>
+                <div class="rank-cover" style="--hue: 340;">
+                  <div class="cover-art-sm"></div>
+                </div>
+                <div class="rank-info">
+                  <h3 class="rank-title">Re:Zero</h3>
+                  <p class="rank-meta">Web Novel · Fantasy · Tâm lý</p>
+                  <div class="rank-stats">
+                    <span>👁 856K</span>
+                    <span>⭐ 4.8</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <div class="bottom-spacer"></div>
+        </div>
+
+        <!-- ====== TAB: AI dịch ====== -->
+        <div class="home-tab-content" id="home-content-aidich">
+          <!-- AI Dịch Banner -->
+          <section class="banner-carousel">
+            <div class="carousel-track" id="carousel-track-ai">
+              <div class="banner-slide active" style="--banner-from: #a18cd1; --banner-to: #fbc2eb;">
+                <div class="banner-gradient"></div>
+                <div class="banner-content">
+                  <span class="banner-tag">🤖 AI</span>
+                  <h2 class="banner-title">Solo Leveling</h2>
+                  <p class="banner-desc">Được dịch bởi AI với độ chính xác cao, cập nhật nhanh</p>
+                  <button class="banner-btn">Đọc ngay</button>
+                </div>
+                <div class="banner-img-placeholder">
+                  <div class="placeholder-book" style="--hue: 280;"></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- AI Info Card -->
+          <section class="ai-info-card">
+            <div class="ai-info-icon">🤖</div>
+            <div class="ai-info-text">
+              <p class="ai-info-title">Dịch bởi trí tuệ nhân tạo</p>
+              <p class="ai-info-desc">Truyện được AI dịch tự động, có thể chưa chính xác 100%. Đang cải thiện mỗi ngày!</p>
+            </div>
+          </section>
+
+          <!-- Quick Categories -->
+          <section class="quick-categories">
+            <button class="category-chip active" data-category="all">
+              <span class="chip-icon">🌟</span> Tất cả
+            </button>
+            <button class="category-chip" data-category="kr">
+              <span class="chip-icon">🇰🇷</span> Hàn Quốc
+            </button>
+            <button class="category-chip" data-category="cn">
+              <span class="chip-icon">🇨🇳</span> Trung Quốc
+            </button>
+            <button class="category-chip" data-category="jp">
+              <span class="chip-icon">🇯🇵</span> Nhật Bản
+            </button>
+            <button class="category-chip" data-category="en">
+              <span class="chip-icon">🇺🇸</span> Tiếng Anh
+            </button>
+          </section>
+
+          <!-- Truyện AI dịch -->
+          <section class="section">
+            <div class="section-header">
+              <h2 class="section-title">Mới cập nhật</h2>
+              <button class="section-more">Xem thêm →</button>
+            </div>
+            <div class="novel-grid">
+              <article class="novel-card" id="ai-novel-1">
+                <div class="novel-cover" style="--hue: 45;">
+                  <div class="cover-art"></div>
+                  <span class="novel-badge ai">AI</span>
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Solo Leveling</h3>
+                  <p class="novel-chapter">Chương 270</p>
+                </div>
+              </article>
+              <article class="novel-card" id="ai-novel-2">
+                <div class="novel-cover" style="--hue: 200;">
+                  <div class="cover-art"></div>
+                  <span class="novel-badge ai">AI</span>
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Omniscient Reader</h3>
+                  <p class="novel-chapter">Chương 551</p>
+                </div>
+              </article>
+              <article class="novel-card" id="ai-novel-3">
+                <div class="novel-cover" style="--hue: 310;">
+                  <div class="cover-art"></div>
+
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">The Beginning After The End</h3>
+                  <p class="novel-chapter">Chương 400</p>
+                </div>
+              </article>
+              <article class="novel-card" id="ai-novel-4">
+                <div class="novel-cover" style="--hue: 140;">
+                  <div class="cover-art"></div>
+                  <span class="novel-badge ai">AI</span>
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Second Life Ranker</h3>
+                  <p class="novel-chapter">Chương 320</p>
+                </div>
+              </article>
+              <article class="novel-card" id="ai-novel-5">
+                <div class="novel-cover" style="--hue: 70;">
+                  <div class="cover-art"></div>
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Trash of the Count's Family</h3>
+                  <p class="novel-chapter">Chương 780</p>
+                </div>
+              </article>
+              <article class="novel-card" id="ai-novel-6">
+                <div class="novel-cover" style="--hue: 350;">
+                  <div class="cover-art"></div>
+
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Overgeared</h3>
+                  <p class="novel-chapter">Chương 1850</p>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <!-- Ranking -->
+          <section class="section">
+            <div class="section-header">
+              <h2 class="section-title">Đọc nhiều nhất</h2>
+              <button class="section-more">Xem thêm →</button>
+            </div>
+            <div class="ranking-list">
+              <article class="ranking-item" id="ai-rank-1">
+                <span class="rank-number gold">1</span>
+                <div class="rank-cover" style="--hue: 45;">
+                  <div class="cover-art-sm"></div>
+                </div>
+                <div class="rank-info">
+                  <h3 class="rank-title">Solo Leveling</h3>
+                  <p class="rank-meta">Hàn Quốc · Hành động · Fantasy</p>
+                  <div class="rank-stats">
+                    <span>👁 3.2M</span>
+                    <span>⭐ 4.9</span>
+                  </div>
+                </div>
+              </article>
+              <article class="ranking-item" id="ai-rank-2">
+                <span class="rank-number silver">2</span>
+                <div class="rank-cover" style="--hue: 200;">
+                  <div class="cover-art-sm"></div>
+                </div>
+                <div class="rank-info">
+                  <h3 class="rank-title">Omniscient Reader</h3>
+                  <p class="rank-meta">Hàn Quốc · Fantasy · Tâm lý</p>
+                  <div class="rank-stats">
+                    <span>👁 2.4M</span>
+                    <span>⭐ 4.8</span>
+                  </div>
+                </div>
+              </article>
+              <article class="ranking-item" id="ai-rank-3">
+                <span class="rank-number bronze">3</span>
+                <div class="rank-cover" style="--hue: 350;">
+                  <div class="cover-art-sm"></div>
+                </div>
+                <div class="rank-info">
+                  <h3 class="rank-title">Overgeared</h3>
+                  <p class="rank-meta">Hàn Quốc · Game · Hành động</p>
+                  <div class="rank-stats">
+                    <span>👁 1.9M</span>
+                    <span>⭐ 4.7</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <div class="bottom-spacer"></div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- ===== PAGE: Giá sách (explore) ===== -->
+    <main id="page-explore" class="page">
+      <header class="page-header">
+        <h1 class="page-title-text">Giá sách</h1>
+        <div class="header-right">
+          <button class="header-icon-btn" id="btn-sort" aria-label="Sắp xếp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="8" y2="18"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <!-- Library Tabs -->
+        <div class="library-tabs" id="library-tabs">
+          <button class="lib-tab active" data-lib-tab="reading">Đang đọc</button>
+          <button class="lib-tab" data-lib-tab="saved">Đã lưu</button>
+          <button class="lib-tab" data-lib-tab="completed">Đã đọc xong</button>
+        </div>
+
+        <!-- Reading Stats -->
+        <div class="reading-stats-card">
+          <div class="stat-item">
+            <span class="stat-value">24</span>
+            <span class="stat-label">Đang đọc</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-value">156</span>
+            <span class="stat-label">Chương đã đọc</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-value">12</span>
+            <span class="stat-label">Đã hoàn thành</span>
+          </div>
+        </div>
+
+        <!-- Library Tab: Đang đọc -->
+        <div class="lib-tab-content active" id="lib-content-reading">
+          <section class="section">
+            <div class="section-header">
+              <h2 class="section-title">Đọc tiếp</h2>
+            </div>
+
+            <article class="library-item" id="lib-item-1">
+              <div class="lib-cover" style="--hue: 220;">
+                <div class="cover-art-sm"></div>
+              </div>
+              <div class="lib-info">
+                <h3 class="lib-title">Mushoku Tensei</h3>
+                <p class="lib-meta">Chương 45 / 250</p>
+                <div class="lib-progress-bar">
+                  <div class="lib-progress-fill" style="width: 18%;"></div>
+                </div>
+                <p class="lib-time">Đọc lần cuối: 2 giờ trước</p>
+              </div>
+              <button class="lib-continue-btn" aria-label="Đọc tiếp">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </button>
+            </article>
+
+            <article class="library-item" id="lib-item-2">
+              <div class="lib-cover" style="--hue: 340;">
+                <div class="cover-art-sm"></div>
+              </div>
+              <div class="lib-info">
+                <h3 class="lib-title">Re:Zero</h3>
+                <p class="lib-meta">Chương 112 / 420</p>
+                <div class="lib-progress-bar">
+                  <div class="lib-progress-fill" style="width: 27%;"></div>
+                </div>
+                <p class="lib-time">Đọc lần cuối: 1 ngày trước</p>
+              </div>
+              <button class="lib-continue-btn" aria-label="Đọc tiếp">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </button>
+            </article>
+
+            <article class="library-item" id="lib-item-3">
+              <div class="lib-cover" style="--hue: 160;">
+                <div class="cover-art-sm"></div>
+              </div>
+              <div class="lib-info">
+                <h3 class="lib-title">Overlord</h3>
+                <p class="lib-meta">Chương 89 / 156</p>
+                <div class="lib-progress-bar">
+                  <div class="lib-progress-fill" style="width: 57%;"></div>
+                </div>
+                <p class="lib-time">Đọc lần cuối: 3 ngày trước</p>
+              </div>
+              <button class="lib-continue-btn" aria-label="Đọc tiếp">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </button>
+            </article>
+
+            <article class="library-item" id="lib-item-4">
+              <div class="lib-cover" style="--hue: 30;">
+                <div class="cover-art-sm"></div>
+              </div>
+              <div class="lib-info">
+                <h3 class="lib-title">Konosuba</h3>
+                <p class="lib-meta">Chương 78 / 98</p>
+                <div class="lib-progress-bar">
+                  <div class="lib-progress-fill" style="width: 80%;"></div>
+                </div>
+                <p class="lib-time">Đọc lần cuối: 5 ngày trước</p>
+              </div>
+              <button class="lib-continue-btn" aria-label="Đọc tiếp">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </button>
+            </article>
+
+            <article class="library-item" id="lib-item-5">
+              <div class="lib-cover" style="--hue: 280;">
+                <div class="cover-art-sm"></div>
+              </div>
+              <div class="lib-info">
+                <h3 class="lib-title">Shield Hero</h3>
+                <p class="lib-meta">Chương 12 / 204</p>
+                <div class="lib-progress-bar">
+                  <div class="lib-progress-fill" style="width: 6%;"></div>
+                </div>
+                <p class="lib-time">Đọc lần cuối: 1 tuần trước</p>
+              </div>
+              <button class="lib-continue-btn" aria-label="Đọc tiếp">
+                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              </button>
+            </article>
+          </section>
+        </div>
+
+        <!-- Library Tab: Đã lưu -->
+        <div class="lib-tab-content" id="lib-content-saved">
+          <section class="section">
+            <div class="section-header">
+              <h2 class="section-title">Truyện đã lưu</h2>
+            </div>
+            <div class="novel-grid">
+              <article class="novel-card">
+                <div class="novel-cover" style="--hue: 200;">
+                  <div class="cover-art"></div>
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Classroom of the Elite</h3>
+                  <p class="novel-chapter">210 chương</p>
+                </div>
+              </article>
+              <article class="novel-card">
+                <div class="novel-cover" style="--hue: 45;">
+                  <div class="cover-art"></div>
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Solo Leveling</h3>
+                  <p class="novel-chapter">270 chương</p>
+                </div>
+              </article>
+              <article class="novel-card">
+                <div class="novel-cover" style="--hue: 310;">
+                  <div class="cover-art"></div>
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Spy x Family</h3>
+                  <p class="novel-chapter">96 chương</p>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+
+        <!-- Library Tab: Đã hoàn thành -->
+        <div class="lib-tab-content" id="lib-content-completed">
+          <section class="section">
+            <div class="section-header">
+              <h2 class="section-title">Đã đọc xong</h2>
+            </div>
+            <div class="novel-grid">
+              <article class="novel-card">
+                <div class="novel-cover" style="--hue: 130;">
+                  <div class="cover-art"></div>
+                  <span class="novel-badge completed">✓</span>
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">No Game No Life</h3>
+                  <p class="novel-chapter">67/67 chương</p>
+                </div>
+              </article>
+              <article class="novel-card">
+                <div class="novel-cover" style="--hue: 15;">
+                  <div class="cover-art"></div>
+                  <span class="novel-badge completed">✓</span>
+                </div>
+                <div class="novel-info">
+                  <h3 class="novel-title">Toradora</h3>
+                  <p class="novel-chapter">120/120 chương</p>
+                </div>
+              </article>
+            </div>
+          </section>
+        </div>
+
+        <div class="bottom-spacer"></div>
+      </div>
+    </main>
+
+    <!-- ===== PAGE: Diễn đàn (library) ===== -->
+    <main id="page-library" class="page">
+      <header class="page-header">
+        <h1 class="page-title-text">Diễn đàn</h1>
+        <div class="header-right">
+          <button class="header-icon-btn" id="btn-forum-search" aria-label="Tìm kiếm diễn đàn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <!-- Forum sub-tabs: Thảo luận / Review / Tâm sự -->
+        <div class="forum-tabs" id="forum-tabs">
+          <button class="forum-tab active" data-forum-tab="discussion">Thảo luận</button>
+          <button class="forum-tab" data-forum-tab="review">Review</button>
+          <button class="forum-tab" data-forum-tab="confession">Tâm sự</button>
+        </div>
+
+        <!-- Forum Tab: Thảo luận -->
+        <div class="forum-tab-content active" id="forum-content-discussion">
+          <div class="forum-posts-list">
+            <!-- Post Card 1 -->
+            <article class="forum-post-card">
+              <div class="post-header">
+                <div class="post-user-avatar" style="background-color: #3b82f6;">H</div>
+                <div class="post-user-info">
+                  <span class="post-user-name">Hako_Master</span>
+                  <span class="post-time">10 phút trước</span>
+                </div>
+                <span class="post-tag discussion">Thảo luận</span>
+              </div>
+              <h2 class="post-title">Có ai mong đợi anime season 3 của Re:Zero không?</h2>
+              <p class="post-excerpt">Mùa 3 của Re:Zero sắp sửa ra mắt rồi! Với các arc sắp tới như Arc 5 (Water Gate City) thì hứa hẹn sẽ cực kỳ hoành tráng...</p>
+              <div class="post-footer">
+                <div class="post-stat">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                  <span>142 Thích</span>
+                </div>
+                <div class="post-stat">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  <span>56 Bình luận</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- Post Card 2 -->
+            <article class="forum-post-card">
+              <div class="post-header">
+                <div class="post-user-avatar" style="background-color: #10b981;">A</div>
+                <div class="post-user-info">
+                  <span class="post-user-name">Alice_Chan</span>
+                  <span class="post-time">1 giờ trước</span>
+                </div>
+                <span class="post-tag discussion">Thảo luận</span>
+              </div>
+              <h2 class="post-title">So sánh bản Web Novel và Light Novel của Overlord</h2>
+              <p class="post-excerpt">Mình thấy bản Light Novel được trau chuốt hơn khá nhiều về cốt truyện, đặc biệt là các nhân vật phụ được xây dựng sâu sắc hơn hẳn...</p>
+              <div class="post-footer">
+                <div class="post-stat">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                  <span>95 Thích</span>
+                </div>
+                <div class="post-stat">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  <span>29 Bình luận</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Forum Tab: Review -->
+        <div class="forum-tab-content" id="forum-content-review">
+          <div class="forum-posts-list">
+            <!-- Post Card 1 -->
+            <article class="forum-post-card">
+              <div class="post-header">
+                <div class="post-user-avatar" style="background-color: #a18cd1;">K</div>
+                <div class="post-user-info">
+                  <span class="post-user-name">Kirito_VN</span>
+                  <span class="post-time">3 giờ trước</span>
+                </div>
+                <span class="post-tag review">Review</span>
+              </div>
+              <h2 class="post-title">[Review] Mushoku Tensei - Kiệt tác chuyển sinh đời đầu</h2>
+              <p class="post-excerpt">Một tác phẩm xây dựng thế giới cực tốt. Hành trình trưởng thành của Rudeus từ một tên NEEt rác rưởi đến một người đàn ông có trách nhiệm được miêu tả rất chân thực...</p>
+              <div class="post-footer">
+                <div class="post-stat">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                  <span>210 Thích</span>
+                </div>
+                <div class="post-stat">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  <span>88 Bình luận</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Forum Tab: Tâm sự -->
+        <div class="forum-tab-content" id="forum-content-confession">
+          <div class="forum-posts-list">
+            <!-- Post Card 1 -->
+            <article class="forum-post-card">
+              <div class="post-header">
+                <div class="post-user-avatar" style="background-color: #f7797d;">M</div>
+                <div class="post-user-info">
+                  <span class="post-user-name">Mọt_Truyện_Đêm</span>
+                  <span class="post-time">5 giờ trước</span>
+                </div>
+                <span class="post-tag confession">Tâm sự</span>
+              </div>
+              <h2 class="post-title">Có ai bị mất ngủ vì cày cố bộ Light Novel yêu thích không?</h2>
+              <p class="post-excerpt">Hôm qua mình tính đọc nốt chương rồi ngủ, ai dè cuốn quá đọc một mạch tới 4h sáng. Giờ đi học như một cái xác không hồn... Cứu mình với!</p>
+              <div class="post-footer">
+                <div class="post-stat">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                  <span>78 Thích</span>
+                </div>
+                <div class="post-stat">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  <span>45 Bình luận</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Floating Action Button: Đăng bài -->
+        <button class="forum-fab" id="btn-forum-create" aria-label="Đăng bài mới">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </button>
+
+        <div class="bottom-spacer"></div>
+      </div>
+    </main>
+
+    <!-- ===== PAGE: Cá nhân ===== -->
+    <main id="page-profile" class="page">
+      <header class="page-header">
+        <h1 class="page-title-text">Cá nhân</h1>
+        <div class="header-right">
+          <button class="header-icon-btn" id="btn-settings" aria-label="Cài đặt">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <!-- Profile Card -->
+        <section class="profile-card">
+          <div class="profile-avatar" id="profile-avatar">
+            <div class="avatar-inner">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div class="avatar-ring"></div>
+          </div>
+          <h2 class="profile-name">Reader_kun</h2>
+          <p class="profile-bio">Đam mê Light Novel & Web Novel 📚</p>
+          <div class="profile-stats-row">
+            <div class="profile-stat">
+              <span class="ps-value">24</span>
+              <span class="ps-label">Đang đọc</span>
+            </div>
+            <div class="profile-stat">
+              <span class="ps-value">12</span>
+              <span class="ps-label">Hoàn thành</span>
+            </div>
+            <div class="profile-stat">
+              <span class="ps-value">47</span>
+              <span class="ps-label">Bình luận</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Achievement Cards -->
+        <section class="section">
+          <div class="section-header">
+            <h2 class="section-title">Thành tích</h2>
+          </div>
+          <div class="achievements-scroll">
+            <div class="achievement-card" id="achieve-1">
+              <span class="achievement-icon">🏆</span>
+              <span class="achievement-name">Mọt sách</span>
+              <span class="achievement-desc">Đọc 100+ chương</span>
+            </div>
+            <div class="achievement-card" id="achieve-2">
+              <span class="achievement-icon">🔥</span>
+              <span class="achievement-name">Streak 7 ngày</span>
+              <span class="achievement-desc">Đọc liên tiếp 7 ngày</span>
+            </div>
+            <div class="achievement-card locked" id="achieve-3">
+              <span class="achievement-icon">👑</span>
+              <span class="achievement-name">Bậc thầy</span>
+              <span class="achievement-desc">Hoàn thành 50 truyện</span>
+            </div>
+            <div class="achievement-card locked" id="achieve-4">
+              <span class="achievement-icon">💎</span>
+              <span class="achievement-name">Kim cương</span>
+              <span class="achievement-desc">Đọc 1000+ chương</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Settings Menu -->
+        <section class="section">
+          <div class="section-header">
+            <h2 class="section-title">Cài đặt</h2>
+          </div>
+          <div class="settings-menu">
+            <button class="settings-item" id="setting-reading">
+              <div class="si-left">
+                <div class="si-icon" style="--si-color: #4a9eff;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </div>
+                <span class="si-label">Cài đặt đọc truyện</span>
+              </div>
+              <svg class="si-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button class="settings-item" id="setting-download">
+              <div class="si-left">
+                <div class="si-icon" style="--si-color: #00d68f;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                </div>
+                <span class="si-label">Truyện đã tải</span>
+              </div>
+              <svg class="si-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button class="settings-item" id="setting-notification">
+              <div class="si-left">
+                <div class="si-icon" style="--si-color: #ffaa00;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                </div>
+                <span class="si-label">Thông báo</span>
+              </div>
+              <svg class="si-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button class="settings-item" id="setting-theme">
+              <div class="si-left">
+                <div class="si-icon" style="--si-color: #a18cd1;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                </div>
+                <span class="si-label">Giao diện</span>
+              </div>
+              <svg class="si-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <button class="settings-item" id="setting-about">
+              <div class="si-left">
+                <div class="si-icon" style="--si-color: #f7797d;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <span class="si-label">Về Hako</span>
+              </div>
+              <svg class="si-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+        </section>
+
+        <!-- Version Info -->
+        <p class="version-text">Hako v1.0.0 · Made with 💙</p>
+
+        <div class="bottom-spacer"></div>
+      </div>
+    </main>
+
+    <!-- ===== BOTTOM NAVIGATION BAR (4 tabs) ===== -->
+    <nav class="bottom-navbar" id="bottom-navbar" aria-label="Điều hướng chính">
+      <div class="nav-bg-blur"></div>
+      <div class="nav-items">
+        <button class="nav-item active" data-page="home" id="nav-home" aria-label="Thư viện">
+          <div class="nav-icon-wrapper">
+            <div class="nav-active-indicator"></div>
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+          </div>
+          <span class="nav-label">Thư viện</span>
+        </button>
+
+        <button class="nav-item" data-page="explore" id="nav-explore" aria-label="Giá sách">
+          <div class="nav-icon-wrapper">
+            <div class="nav-active-indicator"></div>
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <span class="nav-label">Giá sách</span>
+        </button>
+
+        <button class="nav-item" data-page="library" id="nav-library" aria-label="Diễn đàn">
+          <div class="nav-icon-wrapper">
+            <div class="nav-active-indicator"></div>
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <span class="nav-label">Diễn đàn</span>
+        </button>
+
+        <button class="nav-item" data-page="profile" id="nav-profile" aria-label="Cá nhân">
+          <div class="nav-icon-wrapper">
+            <div class="nav-active-indicator"></div>
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <span class="nav-label">Cá nhân</span>
+        </button>
+      </div>
+      <div class="home-indicator"></div>
+    </nav>
+  </div>
+
+  <script src="novel.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
