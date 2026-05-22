@@ -511,7 +511,7 @@ const novelMockData = [
 
 function generateNovelCardHTML(novel) {
   return `
-    <article class="novel-card" data-novel-id="${novel.id}" data-novel-type="${novel.type}">
+    <a href="novel_detail.html" class="novel-card" data-novel-id="${novel.id}" data-novel-type="${novel.type}" style="display: block; text-decoration: none; color: inherit;">
       <div class="novel-cover" style="--hue: ${novel.hue || 200};">
         <div class="cover-art" style="background-image: url('${novel.cover}'); background-size: cover; background-position: center;"></div>
       </div>
@@ -519,7 +519,7 @@ function generateNovelCardHTML(novel) {
         <h3 class="novel-title">${novel.title}</h3>
         <p class="novel-chapter">${novel.chapter}</p>
       </div>
-    </article>
+    </a>
   `;
 }
 

@@ -99,15 +99,15 @@ function initNavigation() {
 const bannerMockData = [
   {
     imageUrl: "https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=800&auto=format&fit=crop",
-    targetUrl: "#"
+    targetUrl: "novel_detail.html"
   },
   {
     imageUrl: "https://docln.sbs/images/banners/2026/summer/lm.png",
-    targetUrl: "#"
+    targetUrl: "novel_detail.html"
   },
   {
     imageUrl: "https://docln.sbs/images/banners/2026/summer/dm.png",
-    targetUrl: "#"
+    targetUrl: "novel_detail.html"
   }
 ];
 
