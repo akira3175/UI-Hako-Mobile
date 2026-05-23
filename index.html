@@ -12,24 +12,17 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <script>
+    if (localStorage.getItem('theme-mode') === 'dark') {
+      document.body.classList.add('dark-theme');
+    }
+  </script>
   <div id="app">
     <!-- Status Bar Spacer -->
     <div class="status-bar-spacer"></div>
 
     <!-- ===== PAGE: Trang Chủ (Thư viện) ===== -->
     <main id="page-home" class="page active">
-      <!-- Home Top Tabs: Toàn bộ / Sáng tác / Truyện dịch / AI dịch -->
-      <header class="home-tabs-header" id="home-tabs-header">
-        <div class="home-tabs-container">
-          <div class="home-tabs">
-            <button class="home-tab active" data-home-tab="toanbo" id="tab-toanbo">Toàn bộ</button>
-            <button class="home-tab" data-home-tab="sangtac" id="tab-sangtac">Sáng tác</button>
-            <button class="home-tab" data-home-tab="truyendich" id="tab-truyendich">Truyện dịch</button>
-            <button class="home-tab" data-home-tab="aidich" id="tab-aidich">AI dịch</button>
-            <div class="home-tab-indicator" id="home-tab-indicator"></div>
-          </div>
-        </div>
-      </header>
 
       <!-- Search Overlay (Lớp phủ tìm kiếm) -->
       <div class="search-overlay" id="search-overlay">
@@ -47,90 +40,110 @@
         </header>
 
         <div class="search-overlay-content">
-          <!-- Thể loại (Genre Grid) -->
-          <section class="section">
-            <div class="section-header">
-              <h2 class="section-title">Thể loại</h2>
-            </div>
-            <div class="genre-grid">
-              <button class="genre-card" style="--g-from: #4a9eff; --g-to: #6dd5fa;">
-                <span class="genre-emoji">⚔️</span>
-                <span class="genre-name">Hành động</span>
-                <span class="genre-count">1,240 truyện</span>
-              </button>
-              <button class="genre-card" style="--g-from: #f7797d; --g-to: #fbd786;">
-                <span class="genre-emoji">💕</span>
-                <span class="genre-name">Tình cảm</span>
-                <span class="genre-count">986 truyện</span>
-              </button>
-              <button class="genre-card" style="--g-from: #43e97b; --g-to: #38f9d7;">
-                <span class="genre-emoji">🧙</span>
-                <span class="genre-name">Fantasy</span>
-                <span class="genre-count">1,520 truyện</span>
-              </button>
-              <button class="genre-card" style="--g-from: #a18cd1; --g-to: #fbc2eb;">
-                <span class="genre-emoji">🌀</span>
-                <span class="genre-name">Isekai</span>
-                <span class="genre-count">870 truyện</span>
-              </button>
-              <button class="genre-card" style="--g-from: #fccb90; --g-to: #d57eeb;">
-                <span class="genre-emoji">😂</span>
-                <span class="genre-name">Hài hước</span>
-                <span class="genre-count">654 truyện</span>
-              </button>
-              <button class="genre-card" style="--g-from: #667eea; --g-to: #764ba2;">
-                <span class="genre-emoji">🔮</span>
-                <span class="genre-name">Bí ẩn</span>
-                <span class="genre-count">432 truyện</span>
+          <!-- Card 1: Lịch sử tìm kiếm -->
+          <div class="search-history-card">
+            <div class="sh-card-header">
+              <div class="sh-card-title">
+                <svg class="sh-title-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+                <span>Lịch sử tìm kiếm</span>
+              </div>
+              <button class="sh-clear-all-btn" id="btn-clear-search-history" aria-label="Xóa tất cả">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"/>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                </svg>
               </button>
             </div>
-          </section>
+            <div class="sh-chips-container" id="search-history-chips">
+              <span class="sh-chip">katena</span>
+              <span class="sh-chip">Yandere</span>
+              <span class="sh-chip">Nữ chính hài kịch tình yêu...</span>
+              <button class="sh-more-btn" aria-label="Xem thêm">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </button>
+            </div>
+          </div>
 
-          <!-- Xu hướng (Trending) -->
-          <section class="section">
-            <div class="section-header">
-              <h2 class="section-title">Tìm kiếm nổi bật</h2>
+          <!-- Card 2: Từ khóa hot -->
+          <div class="search-history-card">
+            <div class="sh-card-header">
+              <div class="sh-card-title hot">
+                <svg class="sh-title-icon fire-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                </svg>
+                <span>Từ khóa hot</span>
+              </div>
             </div>
-            <div class="trending-list-overlay">
-              <a href="novel_detail.html" class="trending-overlay-item" style="text-decoration: none; color: inherit;">
-                <span class="trending-rank">1</span>
-                <span class="trending-text">Thiên Hạ Đệ Nhất Kiếm</span>
-                <span class="trending-badge hot">Hot</span>
-              </a>
-              <a href="novel_detail.html" class="trending-overlay-item" style="text-decoration: none; color: inherit;">
-                <span class="trending-rank">2</span>
-                <span class="trending-text">Mushoku Tensei</span>
-              </a>
-              <a href="novel_detail.html" class="trending-overlay-item" style="text-decoration: none; color: inherit;">
-                <span class="trending-rank">3</span>
-                <span class="trending-text">Vạn Giới Chí Tôn</span>
-              </a>
-              <a href="novel_detail.html" class="trending-overlay-item" style="text-decoration: none; color: inherit;">
-                <span class="trending-rank">4</span>
-                <span class="trending-text">Hoa Đăng Ký Sự</span>
-              </a>
+            <div class="sh-chips-container">
+              <span class="sh-chip">Nữ tôn</span>
+              <span class="sh-chip">Yandere</span>
+              <span class="sh-chip">Ma pháp thiếu nữ</span>
+              <span class="sh-chip">Biến gả</span>
+              <span class="sh-chip">Câm miệng ác long ta không muốn cùng ngươi mang hài tử</span>
+              <span class="sh-chip">Long</span>
+              <span class="sh-chip">Biến bách</span>
+              <span class="sh-chip">Biến thân</span>
+              <span class="sh-chip">Ma nữ</span>
+              <span class="sh-chip">Phản diện</span>
             </div>
-          </section>
+          </div>
         </div>
       </div>
 
-      <div class="page-content home-page-content">
+      <!-- History Overlay (Lớp phủ Lịch sử) -->
+      <div class="search-overlay" id="history-overlay">
+        <header class="search-overlay-header">
+          <button class="search-back-btn" id="btn-history-back" aria-label="Quay lại">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          </button>
+          <div class="search-input-wrapper">
+            <h2 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin: 0; margin-left: 8px;">Lịch sử đọc</h2>
+          </div>
+        </header>
+
+        <div class="search-overlay-content" style="padding: 0;">
+          <div id="history-list" class="history-list">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="page-content home-page-content" id="home-page-content">
 
         <!-- Hero Blur Background (scrolls with content) -->
         <div class="hero-blur-bg" id="hero-blur-bg"></div>
 
-        <!-- Global Search Bar Mock -->
-        <div class="global-search-container">
+        <!-- Sticky Header: Title + Search + Tabs -->
+        <header class="home-tabs-header" id="home-tabs-header">
+          <!-- Title row -->
+          <div class="home-header-top">
+            <h1 class="home-header-title">Thư viện</h1>
+            <button class="history-btn" id="home-history-btn" aria-label="Lịch sử đọc">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 15 15"/></svg>
+              <span>Lịch sử</span>
+            </button>
+          </div>
+          <!-- Search bar -->
           <div class="global-search-bar" id="btn-search-trigger">
             <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             <span class="search-placeholder">Tôi không muốn bị bắt nạt bởi bé Rồng Bạc</span>
           </div>
-          <button class="history-btn" aria-label="Lịch sử đọc">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 15 15"/></svg>
-            <span>Lịch sử</span>
-          </button>
-        </div>
-
+          <!-- Tabs -->
+          <div class="home-tabs-container">
+            <div class="home-tabs">
+              <button class="home-tab active" data-home-tab="toanbo" id="tab-toanbo">Toàn bộ</button>
+              <button class="home-tab" data-home-tab="sangtac" id="tab-sangtac">Sáng tác</button>
+              <button class="home-tab" data-home-tab="truyendich" id="tab-truyendich">Truyện dịch</button>
+              <button class="home-tab" data-home-tab="aidich" id="tab-aidich">AI dịch</button>
+              <div class="home-tab-indicator" id="home-tab-indicator"></div>
+            </div>
+          </div>
+        </header>
 
         <!-- ====== TAB: Toàn bộ ====== -->
         <div class="home-tab-content active" id="home-content-toanbo">
@@ -679,15 +692,6 @@
             </div>
           </section>
 
-          <!-- AI Info Card -->
-          <section class="ai-info-card">
-            <div class="ai-info-icon">🤖</div>
-            <div class="ai-info-text">
-              <p class="ai-info-title">Dịch bởi trí tuệ nhân tạo</p>
-              <p class="ai-info-desc">Truyện được AI dịch tự động, có thể chưa chính xác 100%. Đang cải thiện mỗi ngày!</p>
-            </div>
-          </section>
-
 
           <!-- Truyện AI dịch -->
           <section class="section">
@@ -806,10 +810,10 @@
       </div>
     </main>
 
-    <!-- ===== PAGE: Giá sách (explore) ===== -->
+    <!-- ===== PAGE: Kệ sách (explore) ===== -->
     <main id="page-explore" class="page">
       <header class="page-header">
-        <h1 class="page-title-text">Giá sách</h1>
+        <h1 class="page-title-text">Kệ sách</h1>
         <div class="header-right">
           <button class="header-icon-btn" id="btn-sort" aria-label="Sắp xếp">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="14" y2="12"/><line x1="4" y1="18" x2="8" y2="18"/></svg>
@@ -820,188 +824,228 @@
       <div class="page-content">
         <!-- Library Tabs -->
         <div class="library-tabs" id="library-tabs">
-          <button class="lib-tab active" data-lib-tab="reading">Đang đọc</button>
-          <button class="lib-tab" data-lib-tab="saved">Đã lưu</button>
-          <button class="lib-tab" data-lib-tab="completed">Đã đọc xong</button>
+          <button class="lib-tab active" data-lib-tab="reading">Kệ sách</button>
+          <button class="lib-tab" data-lib-tab="saved">Bookmark</button>
+          <button class="lib-tab" data-lib-tab="completed">Thông báo</button>
         </div>
 
-        <!-- Reading Stats -->
-        <div class="reading-stats-card">
-          <div class="stat-item">
-            <span class="stat-value">24</span>
-            <span class="stat-label">Đang đọc</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-value">156</span>
-            <span class="stat-label">Chương đã đọc</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <span class="stat-value">12</span>
-            <span class="stat-label">Đã hoàn thành</span>
-          </div>
-        </div>
-
-        <!-- Library Tab: Đang đọc -->
+        <!-- Library Tab: Kệ sách -->
         <div class="lib-tab-content active" id="lib-content-reading">
-          <section class="section">
-            <div class="section-header">
-              <h2 class="section-title">Đọc tiếp</h2>
-            </div>
-
-            <a href="novel_detail.html" class="library-item" id="lib-item-1" style="text-decoration: none; color: inherit;">
-              <div class="lib-cover" style="--hue: 220;">
-                <div class="cover-art-sm"></div>
-              </div>
-              <div class="lib-info">
-                <h3 class="lib-title">Mushoku Tensei</h3>
-                <p class="lib-meta">Chương 45 / 250</p>
-                <div class="lib-progress-bar">
-                  <div class="lib-progress-fill" style="width: 18%;"></div>
+          <div class="bookshelf-grid">
+            <!-- Book 1 -->
+            <a href="novel_detail.html" class="bookshelf-card">
+              <div class="bookshelf-cover">
+                <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=300&auto=format&fit=crop" alt="Nhân Vật Chính Trong Truyện...">
+                <div class="cover-lines-overlay">
+                  <span></span><span></span><span></span><span></span><span></span>
                 </div>
-                <p class="lib-time">Đọc lần cuối: 2 giờ trước</p>
               </div>
-              <button class="lib-continue-btn" aria-label="Đọc tiếp">
-                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </button>
+              <div class="bookshelf-info">
+                <h3 class="bookshelf-title">Nhân Vật Chính Trong Truyện...</h3>
+                <p class="bookshelf-chapter">175. Hạnh Phúc Chắc Chắn Sẽ Đến</p>
+              </div>
             </a>
 
-            <a href="novel_detail.html" class="library-item" id="lib-item-2" style="text-decoration: none; color: inherit;">
-              <div class="lib-cover" style="--hue: 340;">
-                <div class="cover-art-sm"></div>
-              </div>
-              <div class="lib-info">
-                <h3 class="lib-title">Re:Zero</h3>
-                <p class="lib-meta">Chương 112 / 420</p>
-                <div class="lib-progress-bar">
-                  <div class="lib-progress-fill" style="width: 27%;"></div>
+            <!-- Book 2 -->
+            <a href="novel_detail.html" class="bookshelf-card">
+              <div class="bookshelf-cover">
+                <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=300&auto=format&fit=crop" alt="Overlord">
+                <div class="cover-lines-overlay">
+                  <span></span><span></span><span></span><span></span><span></span>
                 </div>
-                <p class="lib-time">Đọc lần cuối: 1 ngày trước</p>
               </div>
-              <button class="lib-continue-btn" aria-label="Đọc tiếp">
-                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </button>
+              <div class="bookshelf-info">
+                <h3 class="bookshelf-title">Overlord</h3>
+                <p class="bookshelf-chapter">Chương 156</p>
+              </div>
             </a>
 
-            <a href="novel_detail.html" class="library-item" id="lib-item-3" style="text-decoration: none; color: inherit;">
-              <div class="lib-cover" style="--hue: 160;">
-                <div class="cover-art-sm"></div>
-              </div>
-              <div class="lib-info">
-                <h3 class="lib-title">Overlord</h3>
-                <p class="lib-meta">Chương 89 / 156</p>
-                <div class="lib-progress-bar">
-                  <div class="lib-progress-fill" style="width: 57%;"></div>
+            <!-- Book 3 -->
+            <a href="novel_detail.html" class="bookshelf-card">
+              <div class="bookshelf-cover">
+                <img src="https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?q=80&w=300&auto=format&fit=crop" alt="Tensei Slime">
+                <div class="cover-lines-overlay">
+                  <span></span><span></span><span></span><span></span><span></span>
                 </div>
-                <p class="lib-time">Đọc lần cuối: 3 ngày trước</p>
               </div>
-              <button class="lib-continue-btn" aria-label="Đọc tiếp">
-                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </button>
+              <div class="bookshelf-info">
+                <h3 class="bookshelf-title">Tensei Slime</h3>
+                <p class="bookshelf-chapter">Chương 120</p>
+              </div>
             </a>
 
-            <a href="novel_detail.html" class="library-item" id="lib-item-4" style="text-decoration: none; color: inherit;">
-              <div class="lib-cover" style="--hue: 30;">
-                <div class="cover-art-sm"></div>
-              </div>
-              <div class="lib-info">
-                <h3 class="lib-title">Konosuba</h3>
-                <p class="lib-meta">Chương 78 / 98</p>
-                <div class="lib-progress-bar">
-                  <div class="lib-progress-fill" style="width: 80%;"></div>
+            <!-- Book 4 -->
+            <a href="novel_detail.html" class="bookshelf-card">
+              <div class="bookshelf-cover">
+                <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=300&auto=format&fit=crop" alt="Re:Zero">
+                <div class="cover-lines-overlay">
+                  <span></span><span></span><span></span><span></span><span></span>
                 </div>
-                <p class="lib-time">Đọc lần cuối: 5 ngày trước</p>
               </div>
-              <button class="lib-continue-btn" aria-label="Đọc tiếp">
-                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </button>
+              <div class="bookshelf-info">
+                <h3 class="bookshelf-title">Re:Zero</h3>
+                <p class="bookshelf-chapter">Chương 80</p>
+              </div>
             </a>
 
-            <a href="novel_detail.html" class="library-item" id="lib-item-5" style="text-decoration: none; color: inherit;">
-              <div class="lib-cover" style="--hue: 280;">
-                <div class="cover-art-sm"></div>
-              </div>
-              <div class="lib-info">
-                <h3 class="lib-title">Shield Hero</h3>
-                <p class="lib-meta">Chương 12 / 204</p>
-                <div class="lib-progress-bar">
-                  <div class="lib-progress-fill" style="width: 6%;"></div>
+            <!-- Book 5 -->
+            <a href="novel_detail.html" class="bookshelf-card">
+              <div class="bookshelf-cover" style="background: #a2e97a;">
+                <div class="cover-lines-overlay" style="opacity: 0.6;">
+                  <span></span><span></span><span></span><span></span><span></span>
                 </div>
-                <p class="lib-time">Đọc lần cuối: 1 tuần trước</p>
               </div>
-              <button class="lib-continue-btn" aria-label="Đọc tiếp">
-                <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              </button>
+              <div class="bookshelf-info">
+                <h3 class="bookshelf-title">KonoSuba</h3>
+                <p class="bookshelf-chapter">Chương 100</p>
+              </div>
             </a>
-          </section>
+
+            <!-- Book 6 -->
+            <a href="novel_detail.html" class="bookshelf-card">
+              <div class="bookshelf-cover">
+                <img src="https://images.unsplash.com/photo-1508849789987-4e5333c12b78?q=80&w=300&auto=format&fit=crop" alt="Sword Art Online">
+                <div class="cover-lines-overlay">
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+              </div>
+              <div class="bookshelf-info">
+                <h3 class="bookshelf-title">Sword Art Online</h3>
+                <p class="bookshelf-chapter">Chương 250</p>
+              </div>
+            </a>
+
+            <!-- Book 7 -->
+            <a href="novel_detail.html" class="bookshelf-card">
+              <div class="bookshelf-cover">
+                <img src="https://images.unsplash.com/photo-1519074002996-a69e7ac46a42?q=80&w=300&auto=format&fit=crop" alt="No Game No Life">
+                <div class="cover-lines-overlay">
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+              </div>
+              <div class="bookshelf-info">
+                <h3 class="bookshelf-title">No Game No Life</h3>
+                <p class="bookshelf-chapter">Chương 60</p>
+              </div>
+            </a>
+
+            <!-- Book 8 -->
+            <a href="novel_detail.html" class="bookshelf-card">
+              <div class="bookshelf-cover">
+                <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?q=80&w=300&auto=format&fit=crop" alt="Thiên Sứ Nhà Bên">
+                <div class="cover-lines-overlay">
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+              </div>
+              <div class="bookshelf-info">
+                <h3 class="bookshelf-title">Thiên Sứ Nhà Bên</h3>
+                <p class="bookshelf-chapter">Chương 45</p>
+              </div>
+            </a>
+          </div>
         </div>
 
-        <!-- Library Tab: Đã lưu -->
+        <!-- Library Tab: Bookmark -->
         <div class="lib-tab-content" id="lib-content-saved">
-          <section class="section">
-            <div class="section-header">
-              <h2 class="section-title">Truyện đã lưu</h2>
+          <div class="bookmark-accordion">
+            
+            <!-- Book Group 1 -->
+            <div class="bookmark-group active">
+              <div class="bookmark-header">
+                <div class="bookmark-book-info">
+                  <img class="bookmark-book-cover" src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=120&auto=format&fit=crop" alt="Cover">
+                  <span class="bookmark-book-title">Nhân vật chính trong truyện lãng mạn kỳ ảo chỉ thích mình tôi</span>
+                </div>
+                <div class="bookmark-expand-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </div>
+              </div>
+              
+              <div class="bookmark-chapters-list">
+                <!-- Chapter 1 -->
+                <a href="chapter_detail.html" class="bookmark-chapter-item">
+                  <div class="bookmark-chapter-title">139. Kế thừa Vòng lặp 3, Lancel trung thành. (17)</div>
+                  <div class="bookmark-chapter-sub">Tập 3</div>
+                </a>
+                
+                <!-- Chapter 2 -->
+                <a href="chapter_detail.html" class="bookmark-chapter-item">
+                  <div class="bookmark-chapter-title">154. Thiếu nữ Marigold. (5)</div>
+                  <div class="bookmark-chapter-sub">Tập 4</div>
+                </a>
+                
+                <!-- Chapter 3 -->
+                <a href="chapter_detail.html" class="bookmark-chapter-item">
+                  <div class="bookmark-chapter-title">152. Thiếu nữ Marigold. (3)</div>
+                  <div class="bookmark-chapter-sub">Tập 4</div>
+                </a>
+                
+                <!-- Chapter 4 -->
+                <a href="chapter_detail.html" class="bookmark-chapter-item">
+                  <div class="bookmark-chapter-title">161. Thiếu nữ Marigold. (12)</div>
+                  <div class="bookmark-chapter-sub">Tập 4</div>
+                </a>
+              </div>
             </div>
-            <div class="novel-grid">
-              <a href="novel_detail.html" class="novel-card" style="display: block; text-decoration: none; color: inherit;">
-                <div class="novel-cover" style="--hue: 200;">
-                  <div class="cover-art"></div>
+
+            <!-- Book Group 2 (collapsed by default) -->
+            <div class="bookmark-group">
+              <div class="bookmark-header">
+                <div class="bookmark-book-info">
+                  <img class="bookmark-book-cover" src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=120&auto=format&fit=crop" alt="Cover">
+                  <span class="bookmark-book-title">Overlord</span>
                 </div>
-                <div class="novel-info">
-                  <h3 class="novel-title">Classroom of the Elite</h3>
-                  <p class="novel-chapter">210 chương</p>
+                <div class="bookmark-expand-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
                 </div>
-              </a>
-              <a href="novel_detail.html" class="novel-card" style="display: block; text-decoration: none; color: inherit;">
-                <div class="novel-cover" style="--hue: 45;">
-                  <div class="cover-art"></div>
-                </div>
-                <div class="novel-info">
-                  <h3 class="novel-title">Solo Leveling</h3>
-                  <p class="novel-chapter">270 chương</p>
-                </div>
-              </a>
-              <a href="novel_detail.html" class="novel-card" style="display: block; text-decoration: none; color: inherit;">
-                <div class="novel-cover" style="--hue: 310;">
-                  <div class="cover-art"></div>
-                </div>
-                <div class="novel-info">
-                  <h3 class="novel-title">Spy x Family</h3>
-                  <p class="novel-chapter">96 chương</p>
-                </div>
-              </a>
+              </div>
+              <div class="bookmark-chapters-list">
+                <a href="chapter_detail.html" class="bookmark-chapter-item">
+                  <div class="bookmark-chapter-title">100. Đại lăng mộ Nazarick</div>
+                  <div class="bookmark-chapter-sub">Tập 1</div>
+                </a>
+                <a href="chapter_detail.html" class="bookmark-chapter-item">
+                  <div class="bookmark-chapter-title">101. Hắc Kị Sĩ Albedo</div>
+                  <div class="bookmark-chapter-sub">Tập 1</div>
+                </a>
+              </div>
             </div>
-          </section>
+
+          </div>
         </div>
 
-        <!-- Library Tab: Đã hoàn thành -->
+        <!-- Library Tab: Thông báo -->
         <div class="lib-tab-content" id="lib-content-completed">
           <section class="section">
             <div class="section-header">
-              <h2 class="section-title">Đã đọc xong</h2>
+              <h2 class="section-title">Thông báo</h2>
             </div>
-            <div class="novel-grid">
-              <a href="novel_detail.html" class="novel-card" style="display: block; text-decoration: none; color: inherit;">
-                <div class="novel-cover" style="--hue: 130;">
-                  <div class="cover-art"></div>
-                  <span class="novel-badge completed">✓</span>
+            <div class="notifications-list">
+              <div class="notification-item unread">
+                <div class="notification-icon">🔔</div>
+                <div class="notification-body">
+                  <p class="notification-text">Chương 271 của <strong>Solo Leveling</strong> đã được cập nhật bởi AI!</p>
+                  <span class="notification-time">5 phút trước</span>
                 </div>
-                <div class="novel-info">
-                  <h3 class="novel-title">No Game No Life</h3>
-                  <p class="novel-chapter">67/67 chương</p>
+              </div>
+              <div class="notification-item">
+                <div class="notification-icon">💬</div>
+                <div class="notification-body">
+                  <p class="notification-text">Có bình luận mới trong truyện <strong>Mushoku Tensei</strong> mà bạn đang theo dõi.</p>
+                  <span class="notification-time">1 giờ trước</span>
                 </div>
-              </a>
-              <a href="novel_detail.html" class="novel-card" style="display: block; text-decoration: none; color: inherit;">
-                <div class="novel-cover" style="--hue: 15;">
-                  <div class="cover-art"></div>
-                  <span class="novel-badge completed">✓</span>
+              </div>
+              <div class="notification-item">
+                <div class="notification-icon">🎉</div>
+                <div class="notification-body">
+                  <p class="notification-text">Chào mừng bạn đã gia nhập cộng đồng Hako Mobile! Hãy khám phá những bộ truyện thú vị nhất nhé.</p>
+                  <span class="notification-time">2 ngày trước</span>
                 </div>
-                <div class="novel-info">
-                  <h3 class="novel-title">Toradora</h3>
-                  <p class="novel-chapter">120/120 chương</p>
-                </div>
-              </a>
+              </div>
             </div>
           </section>
         </div>
@@ -1151,73 +1195,39 @@
 
     <!-- ===== PAGE: Cá nhân ===== -->
     <main id="page-profile" class="page">
-      <header class="page-header">
-        <h1 class="page-title-text">Cá nhân</h1>
-        <div class="header-right">
-          <button class="header-icon-btn" id="btn-settings" aria-label="Cài đặt">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          </button>
-        </div>
-      </header>
-
-      <div class="page-content">
-        <!-- Profile Card -->
-        <section class="profile-card">
-          <div class="profile-avatar" id="profile-avatar">
-            <div class="avatar-inner">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
-              </svg>
+      <div class="page-content profile-page-content">
+        <!-- Profile Banner -->
+        <div class="profile-banner-container">
+          <img class="profile-banner-img" src="https://i2.hako.vip/ln/users/covers/u21133-885ed6da-378c-4ce7-bc44-5d8a9366289d.jpg" alt="Profile Banner">
+          <div class="profile-header-overlap">
+            <div class="profile-avatar-wrapper">
+              <img class="profile-avatar-img" src="https://i2.hako.vip/ln/users/avatars/u21133-9cd1b37b-0bc0-4cc6-b1fc-cde4a982451d.jpg" alt="Profile Avatar">
             </div>
-            <div class="avatar-ring"></div>
+            <div class="profile-name-area">
+              <h2 class="profile-username">Aiko Shimizu</h2>
+            </div>
           </div>
-          <h2 class="profile-name">Reader_kun</h2>
-          <p class="profile-bio">Đam mê Light Novel & Web Novel 📚</p>
+        </div>
+
+        <!-- Profile Details -->
+        <div class="profile-details">
+
           <div class="profile-stats-row">
             <div class="profile-stat">
               <span class="ps-value">24</span>
-              <span class="ps-label">Đang đọc</span>
+              <span class="ps-label">Chương đã đăng</span>
             </div>
             <div class="profile-stat">
               <span class="ps-value">12</span>
-              <span class="ps-label">Hoàn thành</span>
+              <span class="ps-label">Theo dõi</span>
             </div>
             <div class="profile-stat">
               <span class="ps-value">47</span>
               <span class="ps-label">Bình luận</span>
             </div>
           </div>
-        </section>
+        </div>
 
-        <!-- Achievement Cards -->
-        <section class="section">
-          <div class="section-header">
-            <h2 class="section-title">Thành tích</h2>
-          </div>
-          <div class="achievements-scroll">
-            <div class="achievement-card" id="achieve-1">
-              <span class="achievement-icon">🏆</span>
-              <span class="achievement-name">Mọt sách</span>
-              <span class="achievement-desc">Đọc 100+ chương</span>
-            </div>
-            <div class="achievement-card" id="achieve-2">
-              <span class="achievement-icon">🔥</span>
-              <span class="achievement-name">Streak 7 ngày</span>
-              <span class="achievement-desc">Đọc liên tiếp 7 ngày</span>
-            </div>
-            <div class="achievement-card locked" id="achieve-3">
-              <span class="achievement-icon">👑</span>
-              <span class="achievement-name">Bậc thầy</span>
-              <span class="achievement-desc">Hoàn thành 50 truyện</span>
-            </div>
-            <div class="achievement-card locked" id="achieve-4">
-              <span class="achievement-icon">💎</span>
-              <span class="achievement-name">Kim cương</span>
-              <span class="achievement-desc">Đọc 1000+ chương</span>
-            </div>
-          </div>
-        </section>
 
         <!-- Settings Menu -->
         <section class="section">
@@ -1225,48 +1235,52 @@
             <h2 class="section-title">Cài đặt</h2>
           </div>
           <div class="settings-menu">
-            <button class="settings-item" id="setting-reading">
+            <div class="settings-item" id="setting-darkmode">
               <div class="si-left">
-                <div class="si-icon" style="--si-color: #4a9eff;">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                <div class="si-icon" style="--si-color: #5856d6;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                  </svg>
                 </div>
-                <span class="si-label">Cài đặt đọc truyện</span>
+                <span class="si-label">Chế độ ban đêm</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="dark-mode-toggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <button class="settings-item" id="setting-profile-details">
+              <div class="si-left">
+                <div class="si-icon" style="--si-color: #ff2d55;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                </div>
+                <span class="si-label">Hồ sơ cá nhân</span>
               </div>
               <svg class="si-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
-            <button class="settings-item" id="setting-download">
+            <button class="settings-item" id="setting-messages">
               <div class="si-left">
-                <div class="si-icon" style="--si-color: #00d68f;">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <div class="si-icon" style="--si-color: #007aff;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
                 </div>
-                <span class="si-label">Truyện đã tải</span>
+                <span class="si-label">Tin nhắn</span>
               </div>
               <svg class="si-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
-            <button class="settings-item" id="setting-notification">
+            <button class="settings-item" id="setting-general">
               <div class="si-left">
-                <div class="si-icon" style="--si-color: #ffaa00;">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                <div class="si-icon" style="--si-color: #8e8e93;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1-2 2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                  </svg>
                 </div>
-                <span class="si-label">Thông báo</span>
-              </div>
-              <svg class="si-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-            <button class="settings-item" id="setting-theme">
-              <div class="si-left">
-                <div class="si-icon" style="--si-color: #a18cd1;">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-                </div>
-                <span class="si-label">Giao diện</span>
-              </div>
-              <svg class="si-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-            <button class="settings-item" id="setting-about">
-              <div class="si-left">
-                <div class="si-icon" style="--si-color: #f7797d;">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                </div>
-                <span class="si-label">Về Hako</span>
+                <span class="si-label">Cài đặt</span>
               </div>
               <svg class="si-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
@@ -1286,7 +1300,6 @@
       <div class="nav-items">
         <button class="nav-item active" data-page="home" id="nav-home" aria-label="Thư viện">
           <div class="nav-icon-wrapper">
-            <div class="nav-active-indicator"></div>
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
               <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
@@ -1295,19 +1308,17 @@
           <span class="nav-label">Thư viện</span>
         </button>
 
-        <button class="nav-item" data-page="explore" id="nav-explore" aria-label="Giá sách">
+        <button class="nav-item" data-page="explore" id="nav-explore" aria-label="Kệ sách">
           <div class="nav-icon-wrapper">
-            <div class="nav-active-indicator"></div>
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
             </svg>
           </div>
-          <span class="nav-label">Giá sách</span>
+          <span class="nav-label">Kệ sách</span>
         </button>
 
         <button class="nav-item" data-page="library" id="nav-library" aria-label="Diễn đàn">
           <div class="nav-icon-wrapper">
-            <div class="nav-active-indicator"></div>
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
@@ -1317,7 +1328,6 @@
 
         <button class="nav-item" data-page="profile" id="nav-profile" aria-label="Cá nhân">
           <div class="nav-icon-wrapper">
-            <div class="nav-active-indicator"></div>
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>

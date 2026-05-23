@@ -53,6 +53,36 @@
       --transition-spring: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
+    /* ====== Dark Theme ====== */
+    body.dark-theme,
+    body.dark-theme #app {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: #1e293b;
+      --bg-elevated: #334155;
+      --bg-navbar: rgba(30, 41, 59, 0.85);
+      --bg-tint: #1e293b;
+
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-tertiary: #64748b;
+
+      --accent-light: rgba(59, 130, 246, 0.15);
+
+      --border-light: rgba(255, 255, 255, 0.08);
+      --border-medium: rgba(255, 255, 255, 0.15);
+
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.25);
+      --shadow-elevated: 0 10px 30px rgba(0, 0, 0, 0.35);
+      --shadow-glow: 0 4px 14px rgba(59, 130, 246, 0.4);
+    }
+
+    body.dark-theme .detail-topbar.scrolled {
+      background: rgba(15, 23, 42, 0.92);
+      box-shadow: 0 1px 12px rgba(0, 0, 0, 0.3);
+    }
+
     /* ====== Reset ====== */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html {
@@ -1154,6 +1184,11 @@
   </style>
 </head>
 <body>
+  <script>
+    if (localStorage.getItem('theme-mode') === 'dark') {
+      document.body.classList.add('dark-theme');
+    }
+  </script>
   <div id="app">
 
     <!-- ===== Top Bar ===== -->

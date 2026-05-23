@@ -9,8 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initCarousel();
   initCategoryChips();
   initLibraryTabs();
+  initBookmarkAccordion();
   initForumTabs();
   initSearchOverlay();
+  initHistoryOverlay();
+  initLibraryHeader();
+  initThemeSwitcher();
 });
 
 /* ==========================================
@@ -330,6 +334,21 @@ function initLibraryTabs() {
 }
 
 /* ==========================================
+   LIBRARY - BOOKMARK ACCORDION
+   ========================================== */
+function initBookmarkAccordion() {
+  const headers = document.querySelectorAll('.bookmark-header');
+  headers.forEach(header => {
+    header.addEventListener('click', () => {
+      const group = header.closest('.bookmark-group');
+      if (group) {
+        group.classList.toggle('active');
+      }
+    });
+  });
+}
+
+/* ==========================================
    BOOKMARK TOGGLE (Explore page)
    ========================================== */
 document.querySelectorAll('.trending-bookmark').forEach(btn => {
@@ -360,7 +379,7 @@ document.querySelectorAll('.trending-bookmark').forEach(btn => {
 /* ==========================================
    HORIZONTAL SCROLL (mouse wheel for desktop)
    ========================================== */
-document.querySelectorAll('.horizontal-scroll, .achievements-scroll').forEach(container => {
+document.querySelectorAll('.horizontal-scroll').forEach(container => {
   container.addEventListener('wheel', (e) => {
     e.preventDefault();
     container.scrollLeft += e.deltaY;
@@ -406,10 +425,99 @@ function initSearchOverlay() {
 
   if (!searchOverlay) return;
 
+  // Search History State (localStorage)
+  const LOCAL_STORAGE_KEY = 'hako_search_history_v2';
+  let searchHistory = [];
+  try {
+    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+    searchHistory = saved ? JSON.parse(saved) : ['katena', 'Yandere', 'Nữ chính hài kịch tình yêu...'];
+  } catch (e) {
+    searchHistory = ['katena', 'Yandere', 'Nữ chính hài kịch tình yêu...'];
+  }
+
+  // Render function for history chips
+  function renderHistoryChips() {
+    const container = document.getElementById('search-history-chips');
+    if (!container) return;
+
+    if (searchHistory.length === 0) {
+      container.innerHTML = '<span style="color: #71717a; font-size: 0.8rem; padding: 4px 8px;">Không có lịch sử tìm kiếm</span>';
+      return;
+    }
+
+    let html = '';
+    searchHistory.forEach(term => {
+      html += `<span class="sh-chip" data-term="${term}">${term}</span>`;
+    });
+    // Add the "more" chevron button
+    html += `
+      <button class="sh-more-btn" aria-label="Xem thêm">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+    `;
+    container.innerHTML = html;
+
+    // Attach click listeners to chips
+    container.querySelectorAll('.sh-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const term = chip.dataset.term;
+        if (searchInput) {
+          searchInput.value = term;
+          if (clearBtn) clearBtn.style.display = 'flex';
+          searchInput.focus();
+          // Trigger search action
+          performSearch(term);
+        }
+      });
+    });
+  }
+
+  // Helper search action
+  function performSearch(term) {
+    console.log('Searching for:', term);
+    // Add to history (move to front, remove duplicates, limit to 6)
+    searchHistory = [term, ...searchHistory.filter(t => t !== term)].slice(0, 6);
+    try {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(searchHistory));
+    } catch(e) {}
+    renderHistoryChips();
+  }
+
+  // Wire up Hot Keyword chips too
+  const hotChipsContainer = document.querySelectorAll('.sh-chips-container')[1];
+  if (hotChipsContainer) {
+    hotChipsContainer.querySelectorAll('.sh-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const term = chip.textContent.trim();
+        if (searchInput) {
+          searchInput.value = term;
+          if (clearBtn) clearBtn.style.display = 'flex';
+          searchInput.focus();
+          performSearch(term);
+        }
+      });
+    });
+  }
+
+  // Wire up Clear History button
+  const clearHistoryBtn = document.getElementById('btn-clear-search-history');
+  if (clearHistoryBtn) {
+    clearHistoryBtn.addEventListener('click', () => {
+      searchHistory = [];
+      try {
+        localStorage.removeItem(LOCAL_STORAGE_KEY);
+      } catch(e) {}
+      renderHistoryChips();
+    });
+  }
+
   // Open overlay
   if (triggerBtn) {
     triggerBtn.addEventListener('click', () => {
       searchOverlay.classList.add('active');
+      renderHistoryChips();
       setTimeout(() => {
         if (searchInput) searchInput.focus();
       }, 300);
@@ -437,6 +545,16 @@ function initSearchOverlay() {
         if (clearBtn) clearBtn.style.display = 'none';
       }
     });
+
+    // Enter key triggers search
+    searchInput.addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') {
+        const query = searchInput.value.trim();
+        if (query.length > 0) {
+          performSearch(query);
+        }
+      }
+    });
   }
 
   // Clear input action
@@ -449,4 +567,115 @@ function initSearchOverlay() {
       clearBtn.style.display = 'none';
     });
   }
+}
+
+/* ==========================================
+   HISTORY OVERLAY
+   ========================================== */
+function initHistoryOverlay() {
+  const historyBtn = document.getElementById('home-history-btn');
+  const historyOverlay = document.getElementById('history-overlay');
+  const backBtn = document.getElementById('btn-history-back');
+  const historyList = document.getElementById('history-list');
+
+  if (!historyBtn || !historyOverlay || !backBtn || !historyList) return;
+
+  // Show overlay and render mock data
+  historyBtn.addEventListener('click', () => {
+    historyOverlay.classList.add('active');
+    renderHistory();
+  });
+
+  // Hide overlay
+  backBtn.addEventListener('click', () => {
+    historyOverlay.classList.remove('active');
+  });
+
+  function renderHistory() {
+    if (typeof novelMockData === 'undefined') return;
+
+    // Use a subset of mock data for history
+    const historyData = novelMockData.slice(0, 10);
+    
+    let html = '';
+    historyData.forEach(novel => {
+      html += `
+        <a href="novel_detail.html" class="history-item">
+          <div class="history-cover">
+            <img src="${novel.cover}" alt="Cover" loading="lazy" onerror="this.src='https://via.placeholder.com/90x120?text=No+Cover'">
+          </div>
+          <div class="history-info">
+            <h3 class="history-title">${novel.title}</h3>
+            <div class="history-meta">${novel.author}</div>
+            <p class="history-desc">${novel.description}</p>
+          </div>
+        </a>
+      `;
+    });
+
+    historyList.innerHTML = html;
+  }
+}
+
+/* ==========================================
+   HOME PAGE - SCROLL-AWARE STICKY HEADER
+   ========================================== */
+function initLibraryHeader() {
+  // Scroll detection for page-home (Thư viện)
+  const homeHeader = document.getElementById('home-tabs-header');
+  const homeContent = document.getElementById('home-page-content');
+  if (!homeHeader || !homeContent) return;
+
+  function onHomeScroll() {
+    // Switch to blue/white after scrolling past the hero area (~80px)
+    if (homeContent.scrollTop > 80) {
+      homeHeader.classList.add('scrolled');
+    } else {
+      homeHeader.classList.remove('scrolled');
+    }
+  }
+
+  homeContent.addEventListener('scroll', onHomeScroll, { passive: true });
+
+  // Reset when returning to this tab
+  const navHomeBtn = document.getElementById('nav-home');
+  if (navHomeBtn) {
+    navHomeBtn.addEventListener('click', () => {
+      setTimeout(() => {
+        homeContent.scrollTop === 0
+          ? homeHeader.classList.remove('scrolled')
+          : homeHeader.classList.add('scrolled');
+      }, 50);
+    });
+  }
+}
+
+/* ==========================================
+   DARK MODE / NIGHT MODE SWITCHER
+   ========================================== */
+function initThemeSwitcher() {
+  const toggle = document.getElementById('dark-mode-toggle');
+  if (!toggle) return;
+
+  // Check saved preference or system preference
+  const isDarkMode = localStorage.getItem('theme-mode') === 'dark';
+  
+  // Set initial state
+  toggle.checked = isDarkMode;
+  if (isDarkMode) {
+    document.body.classList.add('dark-theme');
+  } else {
+    document.body.classList.remove('dark-theme');
+  }
+
+  // Handle toggle switch change
+  toggle.addEventListener('change', () => {
+    if (toggle.checked) {
+      document.body.classList.add('dark-theme');
+      localStorage.setItem('theme-mode', 'dark');
+    } else {
+      document.body.classList.remove('dark-theme');
+      localStorage.setItem('theme-mode', 'light');
+    }
+  });
 }
