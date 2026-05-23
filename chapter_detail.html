@@ -1052,8 +1052,8 @@
               <span id="chapter-date"></span>
             </div>
             <div class="chapter-meta-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              <span id="chapter-views">--</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+              <span id="chapter-words">-- từ</span>
             </div>
           </div>
         </div>
@@ -1398,7 +1398,12 @@
       // Chapter header
       document.getElementById('chapter-main-title').textContent = chapter.title;
       document.getElementById('chapter-date').textContent = getChapterDate(chapter);
-      document.getElementById('chapter-views').textContent = (Math.floor(Math.random() * 50000) + 5000).toLocaleString();
+      
+      let wordCount = 0;
+      if (chapter.text_content) {
+        wordCount = chapter.text_content.trim().split(/\s+/).filter(Boolean).length;
+      }
+      document.getElementById('chapter-words').textContent = wordCount.toLocaleString() + ' từ';
 
       // Chapter content
       const textEl = document.getElementById('chapter-text');
